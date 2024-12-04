@@ -84,4 +84,66 @@ class DatabaseQuery
         return self::where(
             $column, $operatorOrValue, $value, Operator::OR);
     }
+
+    /**
+     * Adds a having condition using AND operator by default.
+     *
+     * @param string $column
+     * @param mixed $operatorOrValue Comparison operator or value
+     *                               (shortcut using '=')
+     * @param mixed $value Value if shortcut is not used
+     * @param Operator $operator Condition operator, used on conditions joining,
+     *                           AND operator is used by default
+     * @return $this
+     */
+    public function having(string $column,
+                           mixed $operatorOrValue,
+                           mixed $value = null,
+                           Operator $operator = Operator::AND): self
+    {
+        $comparisonOperator = $value === null
+            ? '='
+            : $operatorOrValue;
+
+        $value = $value ?? $operatorOrValue;
+
+        $this->having[] = new Condition(
+            $column, $comparisonOperator, $value, $operator);
+
+        return $this;
+    }
+
+    /**
+     * Adds a having condition using OR operator.
+     *
+     * @param string $column
+     * @param mixed $operatorOrValue Comparison operator or value
+     *                               (shortcut using '=')
+     * @param mixed|null $value Value if shortcut is not used
+     * @return $this
+     */
+    public function orHaving(string $column,
+                             mixed $operatorOrValue,
+                             mixed $value = null): self
+    {
+        self::having(
+            $column, $operatorOrValue, $value, Operator::OR);
+
+        return $this;
+    }
+
+    /**
+     * Adds limit instruction with optional offset.
+     *
+     * @param int $limit
+     * @param int|null $offset
+     * @return $this
+     */
+    public function limit(int $limit, ?int $offset = null): self
+    {
+        $this->limit = $limit;
+        $this->offset = $offset;
+
+        return $this;
+    }
 }
