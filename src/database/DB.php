@@ -18,7 +18,7 @@ class DB
      *
      * @return bool If connection attempt is successful
      */
-    private static function connect(): bool
+    public static function connect(): bool
     {
         $db = self::db();
         $dsn = "{$db['dbms']}:host={$db['host']};port={$db['port']}"
