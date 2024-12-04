@@ -40,6 +40,17 @@ class DB
     }
 
     /**
+     * Create a new DatabaseQuery object.
+     *
+     * @param string $table
+     * @return DatabaseQuery
+     */
+    public static function table(string $table): DatabaseQuery
+    {
+        return new DatabaseQuery($table);
+    }
+
+    /**
      * SECURITY WARNING: DO NOT SHARE TO CLIENT!
      *
      * @return array All database credentials
