@@ -15,7 +15,6 @@ class DatabaseQuery
     private array $having = [];
     private ?int $limit = null;
     private ?int $offset = null;
-    private array $values = [];
 
     public function __construct(string $table)
     {
