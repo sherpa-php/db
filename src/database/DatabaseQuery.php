@@ -68,6 +68,15 @@ class DatabaseQuery
         return $this;
     }
 
+    /**
+     * Adds a condition using OR operator.
+     *
+     * @param string $column
+     * @param mixed $operatorOrValue Comparison operator or value
+     *                               (shortcut using '=')
+     * @param mixed|null $value Value if shortcut is not used
+     * @return $this
+     */
     public function orWhere(string $column,
                             mixed $operatorOrValue,
                             mixed $value = null): self
