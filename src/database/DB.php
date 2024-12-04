@@ -4,8 +4,6 @@ namespace Sherpa\Db\database;
 
 use PDO;
 use PDOException;
-use Sherpa\Core\core\Sherpa;
-use Sherpa\Core\exceptions\database\CannotConnectToDatabaseException;
 
 /**
  * Database management class.
