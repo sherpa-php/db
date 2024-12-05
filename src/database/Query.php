@@ -37,8 +37,8 @@ trait Query
      *     query will select all columns ('*').
      * </p>
      *
-     * @param array|string $columns
-     * @return DatabaseQuery
+     * @param array $columns
+     * @return Query|DatabaseQuery
      */
     public function select(array $columns = ["*"]): self
     {
@@ -62,7 +62,7 @@ trait Query
      * @param mixed $operatorOrValue
      * @param mixed|null $value
      * @param JoinType $joinType
-     * @return $this
+     * @return Query|DatabaseQuery
      */
     public function join(string $table,
                          string $column,
