@@ -352,18 +352,14 @@ class Query
             $this->prepareFromRow(),
         ];
 
-        $joins = $this->prepareJoinRows();
-
-        if (strlen($joins))
+        if (count($this->joins))
         {
-            $sql[] = $joins;
+            $sql[] = $this->prepareJoinRows();
         }
 
-        $wheres = $this->prepareWhereRows();
-
-        if (strlen($wheres))
+        if (count($this->conditions))
         {
-            $sql[] = $wheres;
+            $sql[] = $this->prepareWhereRows();
         }
 
         return implode(' ', $sql);
@@ -426,8 +422,7 @@ class Query
                 $conditionsString .= " {$condition->operator->name} ";
             }
 
-            if (is_string($condition->value)
-                && str_contains($condition->value, '.'))
+            if ($condition->value instanceof Reference)
             {
                 $value = $condition->value;
             }

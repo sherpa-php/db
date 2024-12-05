@@ -73,14 +73,6 @@ class DB
     {
         $pdo = self::$pdo;
 
-        for ($i = 0; $i < count($parameters); $i++)
-        {
-            if ($parameters[$i] instanceof RawString)
-            {
-                $parameters[$i] = $parameters[$i]->value;
-            }
-        }
-
         try
         {
             $result = $pdo->prepare($sql);
@@ -95,14 +87,14 @@ class DB
     }
 
     /**
-     * Returns a RawString for separating strings
+     * Returns a Reference for separating strings
      * and db references in SQL expressions.
      *
-     * @param string $value
-     * @return RawString
+     * @param string $ref
+     * @return Reference
      */
-    public static function string(string $value): RawString
+    public static function ref(string $ref): Reference
     {
-        return new RawString($value);
+        return new Reference($ref);
     }
 }
