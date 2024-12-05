@@ -16,20 +16,30 @@ class DB
      * Attempts to connect to database,
      * using provided credentials.
      *
+     * @param string $dbms
+     * @param string $host
+     * @param string|int $port
+     * @param string $charset
+     * @param string $user
+     * @param string $password
      * @return bool If connection attempt is successful
      */
-    private static function connect(): bool
+    private static function connect(string $dbms,
+                                    string $host,
+                                    string|int $port,
+                                    string $charset,
+                                    string $user,
+                                    string $password): bool
     {
         $db = self::db();
-        $dsn = "{$db['dbms']}:host={$db['host']};port={$db['port']}"
-             . ";charset={$db['charset']}";
+        $dsn = "$dbms:host=$host;port=$port;charset=$charset";
 
         try
         {
             self::$pdo = new PDO(
                 $dsn,
-                $db["user"],
-                $db["password"]);
+                $user,
+                $password);
         }
         catch (PDOException $exception)
         {
