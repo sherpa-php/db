@@ -11,4 +11,23 @@ class DatabaseQuery extends Query
 
         return json_decode(json_encode(DB::run($sql, $parameters)));
     }
+
+    public function first(array $columns = ["*"]): ?object
+    {
+        return $this->get($columns)[0] ?? null;
+    }
+
+    public function last(array $columns = ["*"]): ?object
+    {
+        $rows = $this->get($columns);
+
+        return array_pop($rows);
+    }
+
+    public function find(int $id, array $columns = ["*"], string $idColumn = "id"): ?object
+    {
+        $this->where($idColumn, $id);
+
+        return $this->first();
+    }
 }
