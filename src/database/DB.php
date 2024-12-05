@@ -25,14 +25,13 @@ class DB
      * @return bool If connection attempt is successful
      */
     public static function connect(string $dbms,
-                                    string $host,
-                                    string|int $port,
-                                    string $charset,
-                                    string $dbname,
-                                    string $user,
-                                    string $password): bool
+                                   string $host,
+                                   string|int $port,
+                                   string $charset,
+                                   string $dbname,
+                                   string $user,
+                                   string $password): bool
     {
-        $db = self::db();
         $dsn = "$dbms:host=$host;port=$port;dbname=$dbname;charset=$charset";
 
         try
