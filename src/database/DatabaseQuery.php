@@ -24,7 +24,7 @@ class DatabaseQuery extends Query
         return array_pop($rows);
     }
 
-    public function find(int $id, array $columns = ["*"], string $idColumn = "id"): ?object
+    public function find(mixed $id, array $columns = ["*"], string $idColumn = "id"): ?object
     {
         $this->where($idColumn, $id);
 
