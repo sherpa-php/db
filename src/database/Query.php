@@ -414,7 +414,7 @@ class Query
                 $conditionsString .= " {$condition->operator->name} ";
             }
 
-            $value = get_class($condition->value) === RawString::class
+            $value = $condition->value instanceof RawString::class
                 ? "'{$condition->value->value}'"
                 : $condition->value;
 
