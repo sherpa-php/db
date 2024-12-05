@@ -410,6 +410,11 @@ class Query
         return $joins;
     }
 
+    private function prepareWhereRows(): string
+    {
+        return "WHERE {$this->prepareConditions($this->conditions)}";
+    }
+
     private function prepareConditions(array $conditions): string
     {
         $conditionsString = "";
