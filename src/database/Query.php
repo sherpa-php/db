@@ -378,8 +378,15 @@ class Query
 
         foreach ($this->joins as $join)
         {
+            if (strlen($joins))
+            {
+                $joins .= ' ';
+            }
+
+            $conditions = self::prepareConditions($join->conditions);
+
             $joins .= "{$join->joinType->name} JOIN {$join->table} "
-                . "ON <[[JOIN_CONDITIONS_PREPARING]]>";
+                    . "ON $conditions";
         }
 
         return $joins;
