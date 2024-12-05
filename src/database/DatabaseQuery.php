@@ -41,6 +41,16 @@ class DatabaseQuery
         return $this;
     }
 
+    /**
+     * Adds a join of type INNER by default.
+     *
+     * @param string $table
+     * @param string $column
+     * @param mixed $operatorOrValue
+     * @param mixed|null $value
+     * @param JoinType $joinType
+     * @return $this
+     */
     public function join(string $table,
                          string $column,
                          mixed $operatorOrValue,
