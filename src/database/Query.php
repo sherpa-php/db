@@ -424,7 +424,7 @@ class Query
 
             if ($condition->value instanceof Reference)
             {
-                $value = $condition->value;
+                $value = $condition->value->reference;
             }
             else
             {
