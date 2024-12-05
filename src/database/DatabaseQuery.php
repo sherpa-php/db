@@ -2,14 +2,15 @@
 
 namespace Sherpa\Db\database;
 
+use Sherpa\Db\database\enums\JoinType;
 use Sherpa\Db\database\enums\Operator;
 
 class DatabaseQuery
 {
     private string $table;
     private array $columns = [];
-    private array $conditions = [];
     private array $joins = [];
+    private array $conditions = [];
     private array $orderBy = [];
     private array $groupBy = [];
     private array $having = [];
@@ -36,6 +37,30 @@ class DatabaseQuery
         $this->columns = is_string($columns)
             ? [$columns]
             : $columns;
+
+        return $this;
+    }
+
+    public function join(string $table,
+                         string $column,
+                         mixed $operatorOrValue,
+                         mixed $value = null,
+                         JoinType $joinType = JoinType::INNER): self
+    {
+        $comparisonOperator = $value === null
+            ? '='
+            : $operatorOrValue;
+
+        $value = $value ?? $operatorOrValue;
+
+        // TODO: implement * conditions via callback
+        $condition = new Condition(
+            $column,
+            $comparisonOperator,
+            $value,
+            Operator::AND);
+
+        $this->joins[] = new Join($table, [$condition], $joinType);
 
         return $this;
     }
