@@ -62,9 +62,17 @@ class DB
     }
 
     public static function run(string $sql,
-                                  array $parameters = []): array
+                               array $parameters = []): array
     {
         $pdo = self::$pdo;
+
+        for ($i = 0; $i < count($parameters); $i++)
+        {
+            if ($parameters[$i] instanceof RawString)
+            {
+                $parameters[$i] = $parameters[$i]->value;
+            }
+        }
 
         try
         {
