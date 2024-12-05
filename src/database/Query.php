@@ -418,7 +418,8 @@ class Query
             {
                 $value = "'{$condition->value->value}'";
             }
-            elseif (is_string($condition->value))
+            elseif (is_string($condition->value)
+                    && !str_contains($condition->value, '.'))
             {
                 $value = "'$condition->value'";
             }
