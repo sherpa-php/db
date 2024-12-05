@@ -414,9 +414,18 @@ class Query
                 $conditionsString .= " {$condition->operator->name} ";
             }
 
-            $value = $condition->value instanceof RawString::class
-                ? "'{$condition->value->value}'"
-                : $condition->value;
+            if ($condition->value instanceof (RawString::class))
+            {
+                $value = "'{$condition->value->value}'";
+            }
+            elseif (is_string($condition->value))
+            {
+                $value = "'$condition->value'";
+            }
+            else
+            {
+                $value = $condition->value;
+            }
 
             $conditionsString .= "$condition->column "
                                . "$condition->comparisonOperator "
