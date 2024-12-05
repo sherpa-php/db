@@ -9,6 +9,6 @@ class DatabaseQuery extends Query
         $sql = $this->sql();
         $parameters = $this->parameters;
 
-        return DB::run($sql, $parameters);
+        return json_decode(json_encode(DB::run($sql, $parameters)));
     }
 }
