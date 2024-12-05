@@ -42,7 +42,7 @@ trait Query
      */
     public function select(array $columns = ["*"]): self
     {
-        $this->columns = [$columns];
+        $this->columns = $columns;
 
         return $this;
     }
