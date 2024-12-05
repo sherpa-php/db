@@ -20,6 +20,7 @@ class DB
      * @param string $host
      * @param string|int $port
      * @param string $charset
+     * @param string $dbname
      * @param string $user
      * @param string $password
      * @return bool If connection attempt is successful
