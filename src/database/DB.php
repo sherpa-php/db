@@ -79,7 +79,7 @@ class DB
             $result = $pdo->prepare($sql);
             $result->execute($parameters);
 
-            return $result->fetchAll();
+            return $result->fetchAll(PDO::FETCH_ASSOC);
         }
         catch (PDOException $e)
         {
