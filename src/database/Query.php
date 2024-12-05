@@ -17,6 +17,7 @@ class Query
     private array $having = [];
     private ?int $limit = null;
     private ?int $offset = null;
+    protected array $parameters = [];
 
     public function __construct(string $table)
     {
@@ -383,13 +384,43 @@ class Query
                 $joins .= ' ';
             }
 
-            $conditions = self::prepareConditions($join->conditions);
+            $conditions = $this->prepareConditions($join->conditions);
 
             $joins .= "{$join->joinType->name} JOIN {$join->table} "
                     . "ON $conditions";
         }
 
         return $joins;
+    }
+
+    private function prepareConditions(array $conditions): string
+    {
+        $conditionsString = "";
+
+        foreach ($conditions as $condition)
+        {
+            if (strlen($conditionsString))
+            {
+                $conditionsString .= " {$condition->operator->name} ";
+            }
+
+            if (is_string($condition->value)
+                && str_contains($condition->value, '.'))
+            {
+                $value = $condition->value;
+            }
+            else
+            {
+                $value = '?';
+                $this->parameters[] = $condition->value;
+            }
+
+            $conditionsString .= "$condition->column "
+                . "$condition->comparisonOperator "
+                . "$value";
+        }
+
+        return $conditionsString;
     }
 
 
@@ -401,38 +432,4 @@ class Query
 
     public function get(array $columns = ["*"])
     { }
-
-
-    private static function prepareConditions(array $conditions): string
-    {
-        $conditionsString = "";
-
-        foreach ($conditions as $condition)
-        {
-            if (strlen($conditionsString))
-            {
-                $conditionsString .= " {$condition->operator->name} ";
-            }
-
-            if ($condition->value instanceof (RawString::class))
-            {
-                $value = "'{$condition->value->value}'";
-            }
-            elseif (is_string($condition->value)
-                    && !str_contains($condition->value, '.'))
-            {
-                $value = "'$condition->value'";
-            }
-            else
-            {
-                $value = $condition->value;
-            }
-
-            $conditionsString .= "$condition->column "
-                               . "$condition->comparisonOperator "
-                               . "$value";
-        }
-
-        return $conditionsString;
-    }
 }
