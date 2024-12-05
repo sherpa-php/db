@@ -347,9 +347,26 @@ class Query
 
     public function sql(): string
     {
-        return "{$this->prepareSelectRow()} "
-            . "{$this->prepareFromRow()} "
-            . "{$this->prepareJoinRows()}";
+        $sql = [
+            $this->prepareSelectRow(),
+            $this->prepareFromRow(),
+        ];
+
+        $joins = $this->prepareJoinRows();
+
+        if (strlen($joins))
+        {
+            $sql[] = $joins;
+        }
+
+        $wheres = $this->prepareWhereRows();
+
+        if (strlen($wheres))
+        {
+            $sql[] = $wheres;
+        }
+
+        return implode(' ', $sql);
     }
 
     /**
