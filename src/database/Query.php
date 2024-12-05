@@ -346,11 +346,9 @@ trait Query
 
     public function sql(): string
     {
-        return trim("
-        {$this->prepareSelectRow()}
-        {$this->prepareFromRow()}
-        {$this->prepareJoinRows()}
-        ");
+        return "{$this->prepareSelectRow()} "
+            . "{$this->prepareFromRow()} "
+            . "{$this->prepareJoinRows()}";
     }
 
     /**
@@ -376,17 +374,15 @@ trait Query
      */
     private function prepareJoinRows(): string
     {
-        $join = "";
+        $joins = "";
 
         foreach ($this->joins as $join)
         {
-            $join .= trim("
-            {$join->joinType->toString()} JOIN {$join->table}
-            ON <[[JOIN_CONDITIONS_PREPARING]]>
-            ");
+            $joins .= "{$join->joinType->name} JOIN {$join->table} "
+                . "ON <[[JOIN_CONDITIONS_PREPARING]]>";
         }
 
-        return $join;
+        return $joins;
     }
 
 
