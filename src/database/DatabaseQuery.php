@@ -22,6 +22,13 @@ class DatabaseQuery
         $this->table = $table;
     }
 
+
+    /*
+     * ============================================
+     *             SELECTION STATEMENT
+     * ============================================
+     */
+
     /**
      * Defines columns to select.
      * <p>
@@ -40,6 +47,13 @@ class DatabaseQuery
 
         return $this;
     }
+
+
+    /*
+     * ============================================
+     *               JOIN STATEMENTS
+     * ============================================
+     */
 
     /**
      * Adds a join of type INNER by default.
@@ -157,6 +171,13 @@ class DatabaseQuery
         return $this;
     }
 
+
+    /*
+     * ============================================
+     *               WHERE STATEMENTS
+     * ============================================
+     */
+
     /**
      * Adds a condition using AND operator by default.
      *
@@ -201,6 +222,13 @@ class DatabaseQuery
         return self::where(
             $column, $operatorOrValue, $value, Operator::OR);
     }
+
+
+    /*
+     * ============================================
+     *             HAVING STATEMENTS
+     * ============================================
+     */
 
     /**
      * Adds a having condition using AND operator by default.
@@ -248,6 +276,13 @@ class DatabaseQuery
 
         return $this;
     }
+
+
+    /*
+     * ============================================
+     *               LIMIT STATEMENT
+     * ============================================
+     */
 
     /**
      * Adds limit instruction with optional offset.
