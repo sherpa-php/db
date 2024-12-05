@@ -2,7 +2,7 @@
 
 namespace Sherpa\Db\database;
 
-class DatabaseQuery
+class DatabaseQuery extends Query
 {
-    use Query;
+    public function get(array $columns = ["*"]): array
 }

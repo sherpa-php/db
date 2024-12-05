@@ -6,7 +6,7 @@ use Sherpa\Db\database\enums\JoinType;
 use Sherpa\Db\database\enums\Operator;
 use Sherpa\Db\database\enums\OrderType;
 
-trait Query
+class Query
 {
     private string $table;
     private array $columns = ["*"];
