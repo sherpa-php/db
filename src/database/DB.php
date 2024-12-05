@@ -59,20 +59,4 @@ class DB
     {
         return new DatabaseQuery($table);
     }
-
-    /**
-     * SECURITY WARNING: DO NOT SHARE TO CLIENT!
-     *
-     * @return array All database credentials
-     */
-    public static function db(): array
-    {
-        return [
-            "dbms" => $_ENV("DB_DBMS"),
-            "host" => $_ENV("DB_HOST"),
-            "dbname" => $_ENV("DB_NAME"),
-            "user" => $_ENV("DB_USER"),
-            "password" => $_ENV("DB_PASSWORD"),
-        ];
-    }
 }
