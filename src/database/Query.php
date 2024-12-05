@@ -394,4 +394,28 @@ class Query
 
     public function get(array $columns = ["*"])
     { }
+
+
+    private static function prepareConditions(array $conditions): string
+    {
+        $conditionsString = "";
+
+        foreach ($conditions as $condition)
+        {
+            if (strlen($conditionsString))
+            {
+                $conditionsString .= " {$condition->operator->name} ";
+            }
+
+            $value = get_class($condition->value) === RawString::class
+                ? "'{$condition->value->value}'"
+                : $condition->value;
+
+            $conditionsString .= "$condition->column "
+                               . "$condition->comparisonOperator "
+                               . "$value";
+        }
+
+        return $conditionsString;
+    }
 }
