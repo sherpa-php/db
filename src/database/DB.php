@@ -79,4 +79,15 @@ class DB
         }
     }
 
+    /**
+     * Returns a RawString for separating strings
+     * and db references in SQL expressions.
+     *
+     * @param string $value
+     * @return RawString
+     */
+    public static function string(string $value): RawString
+    {
+        return new RawString($value);
+    }
 }
