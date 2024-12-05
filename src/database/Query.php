@@ -340,6 +340,58 @@ trait Query
 
     /*
      * ============================================
+     *               SQL STATEMENTS
+     * ============================================
+     */
+
+    public function sql(): string
+    {
+        return trim("
+        {$this->prepareSelectRow()}
+        {$this->prepareFromRow()}
+        {$this->prepareJoinRows()}
+        ");
+    }
+
+    /**
+     * @return string SQL query's SELECT row
+     */
+    private function prepareSelectRow(): string
+    {
+        $columns = implode(", ", $this->columns);
+
+        return "SELECT $columns";
+    }
+
+    /**
+     * @return string SQL query's FROM row
+     */
+    private function prepareFromRow(): string
+    {
+        return "FROM $this->table";
+    }
+
+    /**
+     * @return string SQL query's JOIN rows
+     */
+    private function prepareJoinRows(): string
+    {
+        $join = "";
+
+        foreach ($this->joins as $join)
+        {
+            $join .= trim("
+            {$join->joinType->toString()} JOIN {$join->table}
+            ON <[[JOIN_CONDITIONS_PREPARING]]>
+            ");
+        }
+
+        return $join;
+    }
+
+
+    /*
+     * ============================================
      *              FETCH STATEMENTS
      * ============================================
      */
