@@ -459,4 +459,36 @@ class Query
      */
     public function get(array $columns = ["*"])
     { }
+
+    /**
+     * Get first SQL row.
+     *
+     * @param array $columns
+     */
+    public function first(array $columns = ["*"])
+    { }
+
+    /**
+     * Get last SQL row.
+     *
+     * @param array $columns
+     */
+    public function last(array $columns = ["*"])
+    { }
+
+    /**
+     * Get SQL row by its id.
+     *
+     * @param int $id
+     * @param array $columns
+     * @param string $idColumn Primary Key column name to use, "id" by default
+     */
+    public function find(int $id, array $columns = ["*"], string $idColumn = "id")
+    { }
+
+    /**
+     * Get SQL rows count.
+     */
+    public function count()
+    { }
 }
