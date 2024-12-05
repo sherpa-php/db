@@ -76,6 +76,88 @@ class DatabaseQuery
     }
 
     /**
+     * Adds an INNER join
+     *
+     * @param string $table
+     * @param string $column
+     * @param mixed $operatorOrValue
+     * @param mixed|null $value
+     * @return $this
+     */
+    public function innerJoin(string $table,
+                              string $column,
+                              mixed $operatorOrValue,
+                              mixed $value = null): self
+    {
+        self::join($table, $column, $operatorOrValue, $value);
+
+        return $this;
+    }
+
+    /**
+     * Adds a LEFT join.
+     *
+     * @param string $table
+     * @param string $column
+     * @param mixed $operatorOrValue
+     * @param mixed|null $value
+     * @return $this
+     */
+    public function leftJoin(string $table,
+                              string $column,
+                              mixed $operatorOrValue,
+                              mixed $value = null): self
+    {
+        self::join(
+            $table, $column, $operatorOrValue,
+            $value, JoinType::LEFT);
+
+        return $this;
+    }
+
+    /**
+     * Adds a RIGHT join.
+     *
+     * @param string $table
+     * @param string $column
+     * @param mixed $operatorOrValue
+     * @param mixed|null $value
+     * @return $this
+     */
+    public function rightJoin(string $table,
+                             string $column,
+                             mixed $operatorOrValue,
+                             mixed $value = null): self
+    {
+        self::join(
+            $table, $column, $operatorOrValue,
+            $value, JoinType::RIGHT);
+
+        return $this;
+    }
+
+    /**
+     * Adds a FULL OUTER join.
+     *
+     * @param string $table
+     * @param string $column
+     * @param mixed $operatorOrValue
+     * @param mixed|null $value
+     * @return $this
+     */
+    public function fullJoin(string $table,
+                             string $column,
+                             mixed $operatorOrValue,
+                             mixed $value = null): self
+    {
+        self::join(
+            $table, $column, $operatorOrValue,
+            $value, JoinType::FULL);
+
+        return $this;
+    }
+
+    /**
      * Adds a condition using AND operator by default.
      *
      * @param string $column
