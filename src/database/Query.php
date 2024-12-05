@@ -452,6 +452,11 @@ class Query
      * ============================================
      */
 
+    /**
+     * Get all SQL rows.
+     *
+     * @param array $columns
+     */
     public function get(array $columns = ["*"])
     { }
 }
