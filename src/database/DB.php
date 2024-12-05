@@ -60,4 +60,23 @@ class DB
     {
         return new DatabaseQuery($table);
     }
+
+    public static function run(string $sql,
+                                  array $parameters = []): array
+    {
+        $pdo = self::$pdo;
+
+        try
+        {
+            $result = $pdo->prepare($sql);
+            $result->execute($parameters);
+
+            return $result->fetchAll();
+        }
+        catch (PDOException $e)
+        {
+            return [];
+        }
+    }
+
 }
