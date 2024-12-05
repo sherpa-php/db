@@ -61,6 +61,13 @@ class DB
         return new DatabaseQuery($table);
     }
 
+    /**
+     * Run SQL query.
+     *
+     * @param string $sql
+     * @param array $parameters
+     * @return array Query rows
+     */
     public static function run(string $sql,
                                array $parameters = []): array
     {
