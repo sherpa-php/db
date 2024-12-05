@@ -28,6 +28,6 @@ class DatabaseQuery extends Query
     {
         $this->where($idColumn, $id);
 
-        return $this->first();
+        return $this->first($columns);
     }
 }
