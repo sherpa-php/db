@@ -28,11 +28,12 @@ class DB
                                     string $host,
                                     string|int $port,
                                     string $charset,
+                                    string $dbname,
                                     string $user,
                                     string $password): bool
     {
         $db = self::db();
-        $dsn = "$dbms:host=$host;port=$port;charset=$charset";
+        $dsn = "$dbms:host=$host;port=$port;dbname=$dbname;charset=$charset";
 
         try
         {
