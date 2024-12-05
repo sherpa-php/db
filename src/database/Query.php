@@ -9,7 +9,7 @@ use Sherpa\Db\database\enums\OrderType;
 trait Query
 {
     private string $table;
-    private array $columns = [];
+    private array $columns = ["*"];
     private array $joins = [];
     private array $conditions = [];
     private array $orderBy = [];
