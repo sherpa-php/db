@@ -24,7 +24,7 @@ class DB
      * @param string $password
      * @return bool If connection attempt is successful
      */
-    private static function connect(string $dbms,
+    public static function connect(string $dbms,
                                     string $host,
                                     string|int $port,
                                     string $charset,
