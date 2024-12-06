@@ -346,7 +346,7 @@ class Query
 
     /*
      * ============================================
-     *               LIMIT STATEMENT
+     *          LIMIT / OFFSET STATEMENTS
      * ============================================
      */
 
@@ -360,6 +360,20 @@ class Query
     public function limit(int $limit, ?int $offset = null): self
     {
         $this->limit = $limit;
+        $this->offset = $offset;
+
+        return $this;
+    }
+
+    /**
+     * Adds offset instruction.
+     *
+     * @param int $offset
+     * @return $this
+     * @see Query::limit()
+     */
+    public function offset(int $offset): self
+    {
         $this->offset = $offset;
 
         return $this;
