@@ -231,6 +231,26 @@ class Query
 
     /*
      * ============================================
+     *            GROUP BY STATEMENTS
+     * ============================================
+     */
+
+    /**
+     * Adds a group by statement.
+     *
+     * @param string ...$columns
+     * @return $this
+     */
+    public function groupBy(string ...$columns): self
+    {
+        $this->groupBy = $columns;
+
+        return $this;
+    }
+
+
+    /*
+     * ============================================
      *             HAVING STATEMENTS
      * ============================================
      */
