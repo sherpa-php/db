@@ -317,7 +317,8 @@ class Query
      * @param string|OrderType $order
      * @return $this
      */
-    public function orderBy(string $column, string|OrderType $order): self
+    public function orderBy(string $column,
+                            string|OrderType $order = OrderType::ASC): self
     {
         if (is_string($order))
         {
