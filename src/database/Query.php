@@ -97,6 +97,7 @@ class Query
      * @param mixed $operatorOrValue
      * @param mixed|null $value
      * @return $this
+     * @see Query::join()
      */
     public function innerJoin(string $table,
                               string $column,
@@ -116,6 +117,7 @@ class Query
      * @param mixed $operatorOrValue
      * @param mixed|null $value
      * @return $this
+     * @see Query::join()
      */
     public function leftJoin(string $table,
                              string $column,
@@ -137,6 +139,7 @@ class Query
      * @param mixed $operatorOrValue
      * @param mixed|null $value
      * @return $this
+     * @see Query::join()
      */
     public function rightJoin(string $table,
                               string $column,
@@ -158,6 +161,7 @@ class Query
      * @param mixed $operatorOrValue
      * @param mixed|null $value
      * @return $this
+     * @see Query::join()
      */
     public function fullJoin(string $table,
                              string $column,
@@ -214,6 +218,7 @@ class Query
      *                               (shortcut using '=')
      * @param mixed|null $value Value if shortcut is not used
      * @return $this
+     * @see Query::where()
      */
     public function orWhere(string $column,
                             mixed $operatorOrValue,
@@ -266,6 +271,7 @@ class Query
      *                               (shortcut using '=')
      * @param mixed|null $value Value if shortcut is not used
      * @return $this
+     * @see Query::having()
      */
     public function orHaving(string $column,
                              mixed $operatorOrValue,
@@ -308,6 +314,7 @@ class Query
      *
      * @param string $column
      * @return $this
+     * @see Query::orderBy()
      */
     public function orderByDesc(string $column): self
     {
