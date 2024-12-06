@@ -390,27 +390,52 @@ class Query
     public function sql(): string
     {
         $sql = [
-            $this->prepareSelectRow(),
-            $this->prepareFromRow(),
+            $this->prepareSelect(),
+            $this->prepareFrom(),
         ];
 
         if (count($this->joins))
         {
-            $sql[] = $this->prepareJoinRows();
+            $sql[] = $this->prepareJoin();
         }
 
         if (count($this->conditions))
         {
-            $sql[] = $this->prepareWhereRows();
+            $sql[] = $this->prepareWhere();
+        }
+
+        if (count($this->groupBy))
+        {
+            $sql[] = $this->prepareGroupBy();
+        }
+
+        if (count($this->having))
+        {
+            $sql[] = $this->prepareHaving();
+        }
+
+        if (count($this->orderBy))
+        {
+            $sql[] = $this->prepareOrderBy();
+        }
+
+        if ($this->limit !== null)
+        {
+            $sql[] = $this->prepareLimit();
+        }
+
+        if ($this->offset !== null)
+        {
+            $sql[] = $this->prepareOffset();
         }
 
         return implode(' ', $sql);
     }
 
     /**
-     * @return string SQL query's SELECT row
+     * @return string SQL query's SELECT statement
      */
-    private function prepareSelectRow(): string
+    private function prepareSelect(): string
     {
         $columns = implode(", ", $this->columns);
 
@@ -418,17 +443,17 @@ class Query
     }
 
     /**
-     * @return string SQL query's FROM row
+     * @return string SQL query's FROM statement
      */
-    private function prepareFromRow(): string
+    private function prepareFrom(): string
     {
         return "FROM $this->table";
     }
 
     /**
-     * @return string SQL query's JOIN rows
+     * @return string SQL query's JOIN statements
      */
-    private function prepareJoinRows(): string
+    private function prepareJoin(): string
     {
         $joins = "";
 
@@ -448,9 +473,59 @@ class Query
         return $joins;
     }
 
-    private function prepareWhereRows(): string
+    /**
+     * @return string SQL query's WHERE statements
+     */
+    private function prepareWhere(): string
     {
         return "WHERE {$this->prepareConditions($this->conditions)}";
+    }
+
+    /**
+     * @return string SQL query's GROUP BY statement
+     */
+    private function prepareGroupBy(): string
+    {
+        return "GROUP BY " . implode(", ", $this->groupBy);
+    }
+
+    /**
+     * @return string SQL query's HAVING statements
+     */
+    private function prepareHaving(): string
+    {
+        return "HAVING {$this->prepareConditions($this->having)}";
+    }
+
+    /**
+     * @return string SQL query's ORDER BY statement
+     */
+    private function prepareOrderBy(): string
+    {
+        $statements = [];
+
+        foreach ($this->orderBy as $orderBy)
+        {
+            $statements[] = "$orderBy->column {$orderBy->orderType->name}";
+        }
+
+        return "ORDER BY " . implode(", ", $statements);
+    }
+
+    /**
+     * @return string SQL query's LIMIT statement
+     */
+    private function prepareLimit(): string
+    {
+        return "LIMIT $this->limit";
+    }
+
+    /**
+     * @return string SQL query's OFFSET statement
+     */
+    private function prepareOffset(): string
+    {
+        return "OFFSET $this->offset";
     }
 
     private function prepareConditions(array $conditions): string
