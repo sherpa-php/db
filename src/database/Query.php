@@ -262,6 +262,45 @@ class Query
             Operator::OR);
     }
 
+    /**
+     * Adds an "in array" condition.
+     *
+     * @param string $column
+     * @param array $array
+     * @param Operator $operator
+     * @return $this
+     */
+    public function whereIn(string $column,
+                            array $array,
+                            Operator $operator = Operator::AND): self
+    {
+        $this->conditions[] = new ConditionInArray(
+            $column,
+            $array,
+            Operator::AND);
+
+        return $this;
+    }
+
+    /**
+     * Adds an "in array" condition using OR operator.
+     *
+     * @param string $column
+     * @param array $array
+     * @param Operator $operator
+     * @return $this
+     */
+    public function orWhereIn(string $column,
+                              array $array,
+                              Operator $operator = Operator::OR): self
+    {
+        return $this->whereIn(
+            $column,
+            $array,
+            Operator::OR);
+    }
+
+
     /*
      * ============================================
      *            GROUP BY STATEMENTS
