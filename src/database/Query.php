@@ -371,6 +371,50 @@ class Query
             Operator::OR);
     }
 
+    /**
+     * Adds a BETWEEN condition.
+     *
+     * @param string $column
+     * @param string|int|float $min
+     * @param string|int|float $max
+     * @param Operator $operator
+     * @return $this
+     */
+    public function whereBetween(string $column,
+                                 string|int|float $min,
+                                 string|int|float $max,
+                                 Operator $operator = Operator::AND): self
+    {
+        $this->conditions[] = new ConditionBetween(
+            $column,
+            $min,
+            $max,
+            $operator);
+
+        return $this;
+    }
+
+    /**
+     * Adds a BETWEEN condition using OR operator.
+     *
+     * @param string $column
+     * @param string|int|float $min
+     * @param string|int|float $max
+     * @param Operator $operator
+     * @return $this
+     */
+    public function orWhereBetween(string $column,
+                                   string|int|float $min,
+                                   string|int|float $max,
+                                   Operator $operator = Operator::OR): self
+    {
+        return $this->whereBetween(
+            $column,
+            $min,
+            $max,
+            Operator::OR);
+    }
+
 
     /*
      * ============================================
