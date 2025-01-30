@@ -23,6 +23,7 @@ class ConditionRegex implements ConditionInterface
     public function statement(): ConditionStatementResponse
     {
         return new ConditionStatementResponse(
-            "$this->column REGEXP '$this->regex'");
+            "$this->column REGEXP ?",
+            [$this->regex]);
     }
 }

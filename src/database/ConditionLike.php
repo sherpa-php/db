@@ -23,6 +23,7 @@ class ConditionLike implements ConditionInterface
     public function statement(): ConditionStatementResponse
     {
         return new ConditionStatementResponse(
-            "$this->column LIKE '$this->like'");
+            "$this->column LIKE ?",
+            [$this->like]);
     }
 }
