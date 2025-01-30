@@ -300,6 +300,42 @@ class Query
             Operator::OR);
     }
 
+    /**
+     * Adds a LIKE condition.
+     *
+     * @param string $column
+     * @param string $like SQL LIKE expression
+     * @param Operator $operator
+     * @return $this
+     */
+    public function whereLike(string $column,
+                              string $like,
+                              Operator $operator = Operator::AND): self
+    {
+        $this->conditions[] = new ConditionLike(
+            $column,
+            $like,
+            $operator);
+
+        return $this;
+    }
+
+    /**
+     * Adds a LIKE condition using OR operator.
+     *
+     * @param string $column
+     * @param string $like SQL LIKE expression
+     * @return $this
+     */
+    public function orWhereLike(string $column,
+                                string $like): self
+    {
+        return $this->whereLike(
+            $column,
+            $like,
+            Operator::OR);
+    }
+
 
     /*
      * ============================================
@@ -681,6 +717,11 @@ class Query
 
                 $conditionsString
                     .= "$condition->column IN ($implodedArray)";
+            }
+            elseif ($condition instanceof ConditionLike)
+            {
+                $conditionsString
+                    .= "$condition->column LIKE '$condition->like'";
             }
         }
 
