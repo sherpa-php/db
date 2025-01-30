@@ -228,6 +228,39 @@ class Query
             $column, $operatorOrValue, $value, Operator::OR);
     }
 
+    /**
+     * Adds a raw condition.
+     *
+     * @param string $raw
+     * @param array $parameters
+     * @param Operator $operator
+     * @return $this
+     */
+    public function whereRaw(string $raw,
+                             array $parameters = [],
+                             Operator $operator = Operator::AND): self
+    {
+        $this->conditions[] = new ConditionRaw($raw, $operator);
+        $this->parameters = [...$this->parameters, ...$parameters];
+
+        return $this;
+    }
+
+    /**
+     * Adds a raw condition using OR operator.
+     *
+     * @param string $raw
+     * @param array $parameters
+     * @return $this
+     */
+    public function orWhereRaw(string $raw,
+                               array $parameters = []): self
+    {
+        return $this->whereRaw(
+            $raw,
+            $parameters,
+            Operator::OR);
+    }
 
     /*
      * ============================================
