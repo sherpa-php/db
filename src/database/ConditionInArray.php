@@ -3,8 +3,9 @@
 namespace Sherpa\Db\database;
 
 use Sherpa\Db\database\enums\Operator;
+use Sherpa\Db\database\structure\ConditionStatementResponse;
 
-class ConditionInArray
+class ConditionInArray implements ConditionInterface
 {
     public private(set) string $column;
     public private(set) array $array;
@@ -17,5 +18,36 @@ class ConditionInArray
         $this->column = $column;
         $this->array = $array;
         $this->operator = $operator;
+    }
+
+    public function statement(): ConditionStatementResponse
+    {
+        $parameters = [];
+
+        $preparedArray = array_map(
+            function ($value) use ($parameters)
+            {
+                if ($value instanceof Reference)
+                {
+                    return $value->reference;
+                }
+                else
+                {
+                    $parameters[] = $value;
+
+                    return '?';
+                }
+            },
+            $this->array);
+
+        $implodedArray = implode(
+            ", ",
+            $preparedArray);
+
+        $statement = "$this->column IN ($implodedArray)";
+
+        return new ConditionStatementResponse(
+            $statement,
+            $parameters);
     }
 }
