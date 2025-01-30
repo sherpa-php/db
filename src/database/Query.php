@@ -344,6 +344,21 @@ class Query
         return $this;
     }
 
+    /**
+     * Adds an order by statement without preparing.
+     *
+     * @param string $raw Statement's raw
+     * @param array $parameters Statement's parameters
+     * @return $this
+     */
+    public function orderByRaw(string $raw, array $parameters = []): self
+    {
+        $this->orderBy[] = $raw;
+        $this->parameters = [...$this->parameters, ...$parameters];
+
+        return $this;
+    }
+
 
     /*
      * ============================================
@@ -506,7 +521,14 @@ class Query
 
         foreach ($this->orderBy as $orderBy)
         {
-            $statements[] = "$orderBy->column {$orderBy->orderType->name}";
+            if ($orderBy instanceof Order)
+            {
+                $statements[] = "$orderBy->column {$orderBy->orderType->name}";
+            }
+            elseif (is_string($orderBy))
+            {
+                $statements[] = $orderBy;
+            }
         }
 
         return "ORDER BY " . implode(", ", $statements);
