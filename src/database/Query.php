@@ -291,8 +291,7 @@ class Query
      * @return $this
      */
     public function orWhereIn(string $column,
-                              array $array,
-                              Operator $operator = Operator::OR): self
+                              array $array): self
     {
         return $this->whereIn(
             $column,
