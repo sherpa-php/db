@@ -637,19 +637,51 @@ class Query
                 $conditionsString .= " {$condition->operator->name} ";
             }
 
-            if ($condition->value instanceof Reference)
+            if ($condition instanceof Condition)
             {
-                $value = $condition->value->reference;
-            }
-            else
-            {
-                $value = '?';
-                $this->parameters[] = $condition->value;
-            }
+                if ($condition->value instanceof Reference)
+                {
+                    $value = $condition->value->reference;
+                }
+                else
+                {
+                    $value = '?';
+                    $this->parameters[] = $condition->value;
+                }
 
-            $conditionsString .= "$condition->column "
-                . "$condition->comparisonOperator "
-                . "$value";
+                $conditionsString .= "$condition->column "
+                    . "$condition->comparisonOperator "
+                    . "$value";
+            }
+            elseif ($condition instanceof ConditionRaw)
+            {
+                $conditionsString .= $condition->raw;
+            }
+            elseif ($condition instanceof ConditionInArray)
+            {
+                $preparedArray = array_map(
+                    function ($value)
+                    {
+                        if ($value instanceof Reference)
+                        {
+                            return $value->reference;
+                        }
+                        else
+                        {
+                            $this->parameters[] = $value;
+
+                            return '?';
+                        }
+                    },
+                    $condition->array);
+
+                $implodedArray = implode(
+                    ", ",
+                    $preparedArray);
+
+                $conditionsString
+                    .= "$condition->column IN ($implodedArray)";
+            }
         }
 
         return $conditionsString;
