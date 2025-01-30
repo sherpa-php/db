@@ -415,6 +415,16 @@ class Query
             Operator::OR);
     }
 
+    public function whereGroup(callable $group,
+                               Operator $operator = Operator::AND): self
+    {
+         $this->conditions[] = new ConditionGroup(
+             $group,
+             $operator);
+
+         return $this;
+    }
+
 
     /*
      * ============================================
@@ -747,17 +757,28 @@ class Query
 
         foreach ($conditions as $condition)
         {
-            if (strlen($conditionsString))
+            if ($condition instanceof ConditionGroup)
             {
-                $conditionsString .= " {$condition->operator->name} ";
-            }
+                $conditionsString .= "(";
 
-            $statement = $condition->statement();
-            $conditionsString .= $statement->statement;
-            $this->parameters = [
-                ...$this->parameters,
-                ...$statement->parameters
-            ];
+                $condition->group($this);
+
+                $conditionsString .= ")";
+            }
+            else
+            {
+                if (strlen($conditionsString))
+                {
+                    $conditionsString .= " {$condition->operator->name} ";
+                }
+
+                $statement = $condition->statement();
+                $conditionsString .= $statement->statement;
+                $this->parameters = [
+                    ...$this->parameters,
+                    ...$statement->parameters
+                ];
+            }
         }
 
         return $conditionsString;
