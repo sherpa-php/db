@@ -335,6 +335,42 @@ class Query
             Operator::OR);
     }
 
+    /**
+     * Adds a REGEXP condition.
+     *
+     * @param string $column
+     * @param string $regex
+     * @param Operator $operator
+     * @return $this
+     */
+    public function whereRegex(string $column,
+                               string $regex,
+                               Operator $operator = Operator::AND): self
+    {
+        $this->conditions[] = new ConditionRegex(
+            $column,
+            $regex,
+            $operator);
+
+        return $this;
+    }
+
+    /**
+     * Adds a REGEXP condition using OR operator.
+     *
+     * @param string $column
+     * @param string $regex
+     * @return $this
+     */
+    public function orWhereRegex(string $column,
+                                 string $regex): self
+    {
+        return $this->whereRegex(
+            $column,
+            $regex,
+            Operator::OR);
+    }
+
 
     /*
      * ============================================
@@ -672,56 +708,12 @@ class Query
                 $conditionsString .= " {$condition->operator->name} ";
             }
 
-            if ($condition instanceof Condition)
-            {
-                if ($condition->value instanceof Reference)
-                {
-                    $value = $condition->value->reference;
-                }
-                else
-                {
-                    $value = '?';
-                    $this->parameters[] = $condition->value;
-                }
-
-                $conditionsString .= "$condition->column "
-                    . "$condition->comparisonOperator "
-                    . "$value";
-            }
-            elseif ($condition instanceof ConditionRaw)
-            {
-                $conditionsString .= $condition->raw;
-            }
-            elseif ($condition instanceof ConditionInArray)
-            {
-                $preparedArray = array_map(
-                    function ($value)
-                    {
-                        if ($value instanceof Reference)
-                        {
-                            return $value->reference;
-                        }
-                        else
-                        {
-                            $this->parameters[] = $value;
-
-                            return '?';
-                        }
-                    },
-                    $condition->array);
-
-                $implodedArray = implode(
-                    ", ",
-                    $preparedArray);
-
-                $conditionsString
-                    .= "$condition->column IN ($implodedArray)";
-            }
-            elseif ($condition instanceof ConditionLike)
-            {
-                $conditionsString
-                    .= "$condition->column LIKE '$condition->like'";
-            }
+            $statement = $condition->statement();
+            $conditionsString .= $statement->statement;
+            $this->parameters = [
+                ...$this->parameters,
+                ...$statement->parameters
+            ];
         }
 
         return $conditionsString;
