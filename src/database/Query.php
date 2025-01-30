@@ -528,6 +528,10 @@ class Query
         return "OFFSET $this->offset";
     }
 
+    /**
+     * @param array $conditions
+     * @return string Imploded where statements string
+     */
     private function prepareConditions(array $conditions): string
     {
         $conditionsString = "";
