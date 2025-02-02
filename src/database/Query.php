@@ -760,9 +760,8 @@ class Query
             if ($condition instanceof ConditionGroup)
             {
                 $conditionsString .= "(";
-
-                $condition->group($this);
-
+                $scopeConditions = $condition->methods->group($condition);
+                $this->prepareConditions($scopeConditions->conditions);
                 $conditionsString .= ")";
             }
             else

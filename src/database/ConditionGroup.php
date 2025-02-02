@@ -14,7 +14,7 @@ class ConditionGroup
                                 Operator $operator)
     {
         $this->methods = (object)[
-            "callback" => $group,
+            "group" => $group,
         ];
         $this->operator = $operator;
     }
