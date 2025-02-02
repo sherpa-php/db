@@ -418,11 +418,11 @@ class Query
     public function whereGroup(callable $group,
                                Operator $operator = Operator::AND): self
     {
-         $this->conditions[] = new ConditionGroup(
-             $group,
-             $operator);
+        $this->conditions[] = new ConditionGroup(
+            $group,
+            $operator);
 
-         return $this;
+        return $this;
     }
 
 
@@ -679,7 +679,7 @@ class Query
             $conditions = $this->prepareConditions($join->conditions);
 
             $joins .= "{$join->joinType->name} JOIN {$join->table} "
-                    . "ON $conditions";
+                . "ON $conditions";
         }
 
         return $joins;
@@ -759,9 +759,16 @@ class Query
         {
             if ($condition instanceof ConditionGroup)
             {
+                $scopeQuery = new ConditionScopeQuery($this->table);
+                $condition->methods["group"]($scopeQuery);
+                $this->parameters = [
+                    ...$this->parameters,
+                    ...$scopeQuery->parameters
+                ];
+
                 $conditionsString .= "(";
-                $scopeConditions = $condition->methods->group($condition);
-                $this->prepareConditions($scopeConditions->conditions);
+                $conditionsString .= $this->prepareConditions(
+                    $scopeQuery->conditions);
                 $conditionsString .= ")";
             }
             else
