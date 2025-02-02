@@ -7,13 +7,13 @@ use Sherpa\Db\database\structure\ConditionStatementResponse;
 
 class ConditionGroup
 {
-    public private(set) object $methods;
+    public private(set) array $methods;
     public private(set) Operator $operator;
 
     public function __construct(callable $group,
                                 Operator $operator)
     {
-        $this->methods = (object)[
+        $this->methods = [
             "group" => $group,
         ];
         $this->operator = $operator;
