@@ -97,4 +97,12 @@ class DB
     {
         return new Reference($ref);
     }
+
+    /**
+     * @return string Last inserted ID using PDO native method
+     */
+    public static function lastInsertId(): string
+    {
+        return self::$pdo->lastInsertId();
+    }
 }
