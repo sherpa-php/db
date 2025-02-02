@@ -27,6 +27,30 @@ class Query
 
     /*
      * ============================================
+     *             CREATION STATEMENT
+     * ============================================
+     */
+
+    public function create(array $data): object
+    {
+        $columns = array_keys($data);
+        $placeholders = array_fill(0, count($columns), '?');
+        $this->parameters = array_values($data);
+
+        $sql = sprintf("INSERT INTO `%s` (%s) VALUES (%s)",
+            $this->table,
+            implode(", ", $columns),
+            implode(", ", $placeholders));
+
+        DB::run($sql, $this->parameters);
+
+        return DB::table($this->table)
+                 ->find(DB::lastInsertId());
+    }
+
+
+    /*
+     * ============================================
      *             SELECTION STATEMENT
      * ============================================
      */
