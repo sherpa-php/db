@@ -63,6 +63,57 @@ class DatabaseQuery extends Query
 
         DB::run($sql, $this->parameters);
     }
+
+
+    /*
+     * ============================================
+     *              DELETE STATEMENT
+     * ============================================
+     */
+
+    /**
+     * Deletes row(s).
+     *
+     * @param int|null $id (optional) id of the row to be deleted
+     */
+    public function delete(?int $id = null): void
+    {
+        if ($id !== null)
+        {
+            $this->where("id", $id);
+        }
+
+        $statements = [];
+
+        if (count($this->joins))
+        {
+            $statements[] = $this->prepareJoin();
+        }
+
+        if (count($this->conditions))
+        {
+            $statements[] = $this->prepareWhere();
+        }
+
+        if (count($this->orderBy))
+        {
+            $statements[] = $this->prepareOrderBy();
+        }
+
+        if ($this->limit !== null)
+        {
+            $statements[] = $this->prepareLimit();
+        }
+
+        $sql = sprintf(
+            "DELETE FROM `%s` %s",
+            $this->table,
+            implode(' ', $statements));
+
+        DB::run($sql, $this->parameters);
+    }
+
+
     public function get(array $columns = ["*"]): array
     {
         $sql = $this->sql();
