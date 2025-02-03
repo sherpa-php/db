@@ -8,15 +8,15 @@ use Sherpa\Db\database\enums\OrderType;
 
 class Query
 {
-    private string $table;
-    private array $columns = ["*"];
-    private array $joins = [];
-    private array $conditions = [];
-    private array $orderBy = [];
-    private array $groupBy = [];
-    private array $having = [];
-    private ?int $limit = null;
-    private ?int $offset = null;
+    protected string $table;
+    protected array $columns = ["*"];
+    protected array $joins = [];
+    protected array $conditions = [];
+    protected array $orderBy = [];
+    protected array $groupBy = [];
+    protected array $having = [];
+    protected ?int $limit = null;
+    protected ?int $offset = null;
     protected array $parameters = [];
 
     public function __construct(string $table)
@@ -729,7 +729,7 @@ class Query
     /**
      * @return string SQL query's SELECT statement
      */
-    private function prepareSelect(): string
+    protected function prepareSelect(): string
     {
         $columns = implode(", ", $this->columns);
 
@@ -739,7 +739,7 @@ class Query
     /**
      * @return string SQL query's FROM statement
      */
-    private function prepareFrom(): string
+    protected function prepareFrom(): string
     {
         return "FROM $this->table";
     }
@@ -747,7 +747,7 @@ class Query
     /**
      * @return string SQL query's JOIN statements
      */
-    private function prepareJoin(): string
+    protected function prepareJoin(): string
     {
         $joins = "";
 
@@ -770,7 +770,7 @@ class Query
     /**
      * @return string SQL query's WHERE statements
      */
-    private function prepareWhere(): string
+    protected function prepareWhere(): string
     {
         return "WHERE {$this->prepareConditions($this->conditions)}";
     }
@@ -778,7 +778,7 @@ class Query
     /**
      * @return string SQL query's GROUP BY statement
      */
-    private function prepareGroupBy(): string
+    protected function prepareGroupBy(): string
     {
         return "GROUP BY " . implode(", ", $this->groupBy);
     }
@@ -786,7 +786,7 @@ class Query
     /**
      * @return string SQL query's HAVING statements
      */
-    private function prepareHaving(): string
+    protected function prepareHaving(): string
     {
         return "HAVING {$this->prepareConditions($this->having)}";
     }
@@ -794,7 +794,7 @@ class Query
     /**
      * @return string SQL query's ORDER BY statement
      */
-    private function prepareOrderBy(): string
+    protected function prepareOrderBy(): string
     {
         $statements = [];
 
@@ -816,7 +816,7 @@ class Query
     /**
      * @return string SQL query's LIMIT statement
      */
-    private function prepareLimit(): string
+    protected function prepareLimit(): string
     {
         return "LIMIT $this->limit";
     }
@@ -824,7 +824,7 @@ class Query
     /**
      * @return string SQL query's OFFSET statement
      */
-    private function prepareOffset(): string
+    protected function prepareOffset(): string
     {
         return "OFFSET $this->offset";
     }
@@ -833,7 +833,7 @@ class Query
      * @param array $conditions
      * @return string Imploded where statements string
      */
-    private function prepareConditions(array $conditions): string
+    protected function prepareConditions(array $conditions): string
     {
         $conditionsString = "";
 
