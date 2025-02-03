@@ -63,7 +63,7 @@ class Query
      * ============================================
      */
 
-    public function update(array $data): ?object
+    public function update(array $data): void
     {
         $columns = array_keys($data);
         $updates = [];
@@ -104,8 +104,6 @@ class Query
             implode(' ', $statements));
 
         DB::run($sql, $this->parameters);
-
-        return (object)[];
     }
 
 
