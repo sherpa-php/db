@@ -82,7 +82,20 @@ class DB
         }
         catch (PDOException $e)
         {
-            return [];
+            if (strtolower($_ENV["MODE"]) !== "dev")
+            {
+                if (ob_get_length())
+                {
+                    ob_clean();
+                }
+
+                http_response_code(500);
+                exit;
+            }
+            else
+            {
+                throw $e;
+            }
         }
     }
 
