@@ -31,13 +31,21 @@ class Query
      * ============================================
      */
 
-    public function create(array $data): object
+    /**
+     * Creates a new row to set table,
+     * using provided data.
+     *
+     * @param array $data
+     * @return object|null Created row if retrieved successfully
+     */
+    public function create(array $data): ?object
     {
         $columns = array_keys($data);
         $placeholders = array_fill(0, count($columns), '?');
         $this->parameters = array_values($data);
 
-        $sql = sprintf("INSERT INTO `%s` (%s) VALUES (%s)",
+        $sql = sprintf(
+            "INSERT INTO `%s` (%s) VALUES (%s)",
             $this->table,
             implode(", ", $columns),
             implode(", ", $placeholders));
