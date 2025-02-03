@@ -73,7 +73,7 @@ class Query
      * @param array $columns
      * @return Query|DatabaseQuery
      */
-    public function select(array $columns = ["*"]): self
+    public function select(array $columns = ["*"]): static
     {
         $this->columns = $columns;
 
@@ -101,7 +101,7 @@ class Query
                          string $column,
                          mixed $operatorOrValue,
                          mixed $value = null,
-                         JoinType $joinType = JoinType::INNER): self
+                         JoinType $joinType = JoinType::INNER): static
     {
         $comparisonOperator = $value === null
             ? '='
@@ -134,7 +134,7 @@ class Query
     public function innerJoin(string $table,
                               string $column,
                               mixed $operatorOrValue,
-                              mixed $value = null): self
+                              mixed $value = null): static
     {
         self::join($table, $column, $operatorOrValue, $value);
 
@@ -154,7 +154,7 @@ class Query
     public function leftJoin(string $table,
                              string $column,
                              mixed $operatorOrValue,
-                             mixed $value = null): self
+                             mixed $value = null): static
     {
         self::join(
             $table, $column, $operatorOrValue,
@@ -176,7 +176,7 @@ class Query
     public function rightJoin(string $table,
                               string $column,
                               mixed $operatorOrValue,
-                              mixed $value = null): self
+                              mixed $value = null): static
     {
         self::join(
             $table, $column, $operatorOrValue,
@@ -198,7 +198,7 @@ class Query
     public function fullJoin(string $table,
                              string $column,
                              mixed $operatorOrValue,
-                             mixed $value = null): self
+                             mixed $value = null): static
     {
         self::join(
             $table, $column, $operatorOrValue,
@@ -228,7 +228,7 @@ class Query
     public function where(string $column,
                           mixed $operatorOrValue,
                           mixed $value = null,
-                          Operator $operator = Operator::AND): self
+                          Operator $operator = Operator::AND): static
     {
         $comparisonOperator = $value === null
             ? '='
@@ -254,7 +254,7 @@ class Query
      */
     public function orWhere(string $column,
                             mixed $operatorOrValue,
-                            mixed $value = null): self
+                            mixed $value = null): static
     {
         return self::where(
             $column, $operatorOrValue, $value, Operator::OR);
@@ -270,7 +270,7 @@ class Query
      */
     public function whereRaw(string $raw,
                              array $parameters = [],
-                             Operator $operator = Operator::AND): self
+                             Operator $operator = Operator::AND): static
     {
         $this->conditions[] = new ConditionRaw($raw, $operator);
         $this->parameters = [...$this->parameters, ...$parameters];
@@ -286,7 +286,7 @@ class Query
      * @return $this
      */
     public function orWhereRaw(string $raw,
-                               array $parameters = []): self
+                               array $parameters = []): static
     {
         return $this->whereRaw(
             $raw,
@@ -304,7 +304,7 @@ class Query
      */
     public function whereIn(string $column,
                             array $array,
-                            Operator $operator = Operator::AND): self
+                            Operator $operator = Operator::AND): static
     {
         $this->conditions[] = new ConditionInArray(
             $column,
@@ -323,7 +323,7 @@ class Query
      * @return $this
      */
     public function orWhereIn(string $column,
-                              array $array): self
+                              array $array): static
     {
         return $this->whereIn(
             $column,
@@ -341,7 +341,7 @@ class Query
      */
     public function whereLike(string $column,
                               string $like,
-                              Operator $operator = Operator::AND): self
+                              Operator $operator = Operator::AND): static
     {
         $this->conditions[] = new ConditionLike(
             $column,
@@ -359,7 +359,7 @@ class Query
      * @return $this
      */
     public function orWhereLike(string $column,
-                                string $like): self
+                                string $like): static
     {
         return $this->whereLike(
             $column,
@@ -377,7 +377,7 @@ class Query
      */
     public function whereRegex(string $column,
                                string $regex,
-                               Operator $operator = Operator::AND): self
+                               Operator $operator = Operator::AND): static
     {
         $this->conditions[] = new ConditionRegex(
             $column,
@@ -395,7 +395,7 @@ class Query
      * @return $this
      */
     public function orWhereRegex(string $column,
-                                 string $regex): self
+                                 string $regex): static
     {
         return $this->whereRegex(
             $column,
@@ -415,7 +415,7 @@ class Query
     public function whereBetween(string $column,
                                  string|int|float $min,
                                  string|int|float $max,
-                                 Operator $operator = Operator::AND): self
+                                 Operator $operator = Operator::AND): static
     {
         $this->conditions[] = new ConditionBetween(
             $column,
@@ -438,7 +438,7 @@ class Query
     public function orWhereBetween(string $column,
                                    string|int|float $min,
                                    string|int|float $max,
-                                   Operator $operator = Operator::OR): self
+                                   Operator $operator = Operator::OR): static
     {
         return $this->whereBetween(
             $column,
@@ -448,7 +448,7 @@ class Query
     }
 
     public function whereGroup(callable $group,
-                               Operator $operator = Operator::AND): self
+                               Operator $operator = Operator::AND): static
     {
         $this->conditions[] = new ConditionGroup(
             $group,
@@ -470,7 +470,7 @@ class Query
      * @param string ...$columns
      * @return $this
      */
-    public function groupBy(string ...$columns): self
+    public function groupBy(string ...$columns): static
     {
         $this->groupBy = $columns;
 
@@ -498,7 +498,7 @@ class Query
     public function having(string $column,
                            mixed $operatorOrValue,
                            mixed $value = null,
-                           Operator $operator = Operator::AND): self
+                           Operator $operator = Operator::AND): static
     {
         $comparisonOperator = $value === null
             ? '='
@@ -524,7 +524,7 @@ class Query
      */
     public function orHaving(string $column,
                              mixed $operatorOrValue,
-                             mixed $value = null): self
+                             mixed $value = null): static
     {
         self::having(
             $column, $operatorOrValue, $value, Operator::OR);
@@ -547,7 +547,7 @@ class Query
      * @return $this
      */
     public function orderBy(string $column,
-                            string|OrderType $order = OrderType::ASC): self
+                            string|OrderType $order = OrderType::ASC): static
     {
         if (is_string($order))
         {
@@ -566,7 +566,7 @@ class Query
      * @return $this
      * @see Query::orderBy()
      */
-    public function orderByDesc(string $column): self
+    public function orderByDesc(string $column): static
     {
         self::orderBy($column, OrderType::DESC);
 
@@ -580,7 +580,7 @@ class Query
      * @param array $parameters Statement's parameters
      * @return $this
      */
-    public function orderByRaw(string $raw, array $parameters = []): self
+    public function orderByRaw(string $raw, array $parameters = []): static
     {
         $this->orderBy[] = $raw;
         $this->parameters = [...$this->parameters, ...$parameters];
@@ -602,7 +602,7 @@ class Query
      * @param int|null $offset
      * @return $this
      */
-    public function limit(int $limit, ?int $offset = null): self
+    public function limit(int $limit, ?int $offset = null): static
     {
         $this->limit = $limit;
         $this->offset = $offset;
@@ -617,7 +617,7 @@ class Query
      * @return $this
      * @see Query::limit()
      */
-    public function offset(int $offset): self
+    public function offset(int $offset): static
     {
         $this->offset = $offset;
 
