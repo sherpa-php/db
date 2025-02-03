@@ -59,6 +59,58 @@ class Query
 
     /*
      * ============================================
+     *              UPDATE STATEMENT
+     * ============================================
+     */
+
+    public function update(array $data): ?object
+    {
+        $columns = array_keys($data);
+        $updates = [];
+
+        foreach ($columns as $column)
+        {
+            $updates[] = "$column = ?";
+        }
+
+        $this->parameters = array_values($data);
+
+        $statements = [];
+
+        if (count($this->joins))
+        {
+            $statements[] = $this->prepareJoin();
+        }
+
+        if (count($this->conditions))
+        {
+            $statements[] = $this->prepareWhere();
+        }
+
+        if (count($this->orderBy))
+        {
+            $statements[] = $this->prepareOrderBy();
+        }
+
+        if ($this->limit !== null)
+        {
+            $statements[] = $this->prepareLimit();
+        }
+
+        $sql = sprintf(
+            "UPDATE `%s` SET %s %s",
+            $this->table,
+            implode(", ", $updates),
+            implode(' ', $statements));
+
+        DB::run($sql, $this->parameters);
+
+        return (object)[];
+    }
+
+
+    /*
+     * ============================================
      *             SELECTION STATEMENT
      * ============================================
      */
