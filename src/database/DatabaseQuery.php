@@ -146,4 +146,10 @@ class DatabaseQuery extends Query
 
         return $this->first($columns);
     }
+
+    public function count(): int
+    {
+        $this->columns = ["count(*) as c"];
+        return $this->first()->c;
+    }
 }
