@@ -114,6 +114,12 @@ class DatabaseQuery extends Query
     }
 
 
+    /*
+     * ============================================
+     *              FETCH STATEMENTS
+     * ============================================
+     */
+
     public function get(array $columns = ["*"]): array
     {
         $sql = $this->sql();
