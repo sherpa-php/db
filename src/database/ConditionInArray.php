@@ -22,6 +22,13 @@ class ConditionInArray implements ConditionInterface
 
     public function statement(): ConditionStatementResponse
     {
+        if (!count($this->array))
+        {
+            $statement = "1 = 0";
+
+            return new ConditionStatementResponse($statement);
+        }
+
         $parameters = [];
 
         $preparedArray = array_map(
