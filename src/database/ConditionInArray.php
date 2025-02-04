@@ -32,7 +32,7 @@ class ConditionInArray implements ConditionInterface
         $parameters = [];
 
         $preparedArray = array_map(
-            function ($value) use ($parameters)
+            function ($value) use (&$parameters)
             {
                 if ($value instanceof Reference)
                 {
