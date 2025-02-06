@@ -4,7 +4,7 @@ namespace Sherpa\Db\database\exceptions;
 
 use Sherpa\Exceptions\exceptions\SherpaException;
 
-class CannotConnectToDatabase extends SherpaException
+class CannotConnectToDatabaseException extends SherpaException
 {
     public function __construct(?Throwable $previous = null)
     {
