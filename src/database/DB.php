@@ -31,14 +31,23 @@ class DB
                                    string $charset,
                                    string $dbname,
                                    string $user,
-                                   string $password): void
+                                   string $password): bool
     {
         $dsn = "$dbms:host=$host;port=$port;dbname=$dbname;charset=$charset";
 
-        self::$pdo = new PDO(
-            $dsn,
-            $user,
-            $password);
+        try
+        {
+            self::$pdo = new PDO(
+                $dsn,
+                $user,
+                $password);
+        }
+        catch (PDOException $exception)
+        {
+            return false;
+        }
+
+        return true;
     }
 
     /**
