@@ -978,4 +978,33 @@ class Query
 
         DB::run($sql, $this->parameters);
     }
+
+
+    /*
+     * ============================================
+     *              MANUAL COMMITMENT
+     * ============================================
+     */
+
+    /**
+     * Commit current transaction.
+     * <p>
+     *     Useless if auto-commitment is active
+     * </p>
+     */
+    public function commit(): void
+    {
+        DB::run("COMMIT");
+    }
+
+    /**
+     * Rollback current transaction.
+     * <p>
+     *     Useless if auto-commitment is active
+     * </p>
+     */
+    public function rollback(): void
+    {
+        DB::run("ROLLBACK");
+    }
 }
