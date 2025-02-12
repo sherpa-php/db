@@ -134,4 +134,47 @@ class DB
 
         return self::$pdo->lastInsertId();
     }
+
+    /**
+     * Set a PDO's attribute.
+     *
+     * @param int $key Using PDO's constant
+     * @param mixed $value
+     * @return bool If successful
+     * @see PDO
+     */
+    public static function setAttribute(int $key, mixed $value): bool
+    {
+        return self::$pdo->setAttribute($key, $value);
+    }
+
+    /**
+     * Get a PDO's attribute.
+     *
+     * @param int $key Using PDO's constant
+     * @return mixed PDO's attribute's value if existing;
+     *               else, NULL is returned
+     * @see PDO
+     */
+    public static function getAttribute(int $key): mixed
+    {
+        return self::$pdo->getAttribute($key);
+    }
+
+    /**
+     * Set a new value for PDO's AUTOCOMMIT attribute if $enable is provided,
+     * else, it only returns the current attribute's value.
+     *
+     * @param bool|null $enable New PDO's AUTOCOMMIT attribute's value
+     * @return bool Current attribute's value
+     */
+    public static function autoCommit(?bool $enable = null): bool
+    {
+        if ($enable !== null)
+        {
+            self::$pdo->setAttribute(PDO::ATTR_AUTOCOMMIT, $enable);
+        }
+
+        return self::$pdo->getAttribute(PDO::ATTR_AUTOCOMMIT);
+    }
 }
