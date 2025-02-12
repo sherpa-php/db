@@ -10,7 +10,7 @@ use PDOException;
  */
 class DB
 {
-    private static PDO $pdo;
+    public private(set) static PDO $pdo;
 
     /**
      * Attempts to connect to database,
