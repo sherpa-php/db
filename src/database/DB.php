@@ -11,7 +11,7 @@ use Sherpa\Db\database\exceptions\CannotConnectToDatabaseException;
  */
 class DB
 {
-    public private(set) static PDO $pdo;
+    private static PDO $pdo;
 
     /**
      * Attempts to connect to database,
