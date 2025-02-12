@@ -4,6 +4,7 @@ namespace Sherpa\Db\database;
 
 use PDO;
 use PDOException;
+use Sherpa\Db\database\exceptions\CannotConnectToDatabaseException;
 
 /**
  * Database management class.
@@ -67,10 +68,16 @@ class DB
      * @param string $sql
      * @param array $parameters
      * @return array Query rows
+     * @throws CannotConnectToDatabaseException
      */
     public static function run(string $sql,
                                array $parameters = []): array
     {
+        if (!isset(self::$pdo))
+        {
+            throw new CannotConnectToDatabaseException();
+        }
+
         $pdo = self::$pdo;
 
         try
@@ -80,7 +87,7 @@ class DB
 
             return $result->fetchAll(PDO::FETCH_ASSOC);
         }
-        catch (PDOException $e)
+        catch (PDOException $e)         // TODO issue db/#19
         {
             if (strtolower($_ENV["MODE"]) !== "dev")
             {
@@ -113,9 +120,15 @@ class DB
 
     /**
      * @return string Last inserted ID using PDO native method
+     * @throws CannotConnectToDatabaseException
      */
     public static function lastInsertId(): string
     {
+        if (!isset(self::$pdo))
+        {
+            throw new CannotConnectToDatabaseException();
+        }
+
         return self::$pdo->lastInsertId();
     }
 }
