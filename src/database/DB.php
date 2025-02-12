@@ -32,7 +32,8 @@ class DB
                                    string $charset,
                                    string $dbname,
                                    string $user,
-                                   string $password): bool
+                                   string $password,
+                                   bool $autoCommit = true): bool
     {
         $dsn = "$dbms:host=$host;port=$port;dbname=$dbname;charset=$charset";
 
@@ -42,6 +43,8 @@ class DB
                 $dsn,
                 $user,
                 $password);
+
+            self::$pdo->setAttribute(PDO::ATTR_AUTOCOMMIT, $autoCommit);
         }
         catch (PDOException $exception)
         {
