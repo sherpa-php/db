@@ -83,30 +83,10 @@ class DB
 
         $pdo = self::$pdo;
 
-        try
-        {
-            $result = $pdo->prepare($sql);
-            $result->execute($parameters);
+        $result = $pdo->prepare($sql);
+        $result->execute($parameters);
 
-            return $result->fetchAll(PDO::FETCH_ASSOC);
-        }
-        catch (PDOException $e)         // TODO issue db/#19
-        {
-            if (strtolower($_ENV["MODE"]) !== "dev")
-            {
-                if (ob_get_length())
-                {
-                    ob_clean();
-                }
-
-                http_response_code(500);
-                exit;
-            }
-            else
-            {
-                throw $e;
-            }
-        }
+        return $result->fetchAll(PDO::FETCH_ASSOC);
     }
 
     /**
