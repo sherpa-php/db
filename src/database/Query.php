@@ -867,7 +867,11 @@ class Query
      * Get SQL rows count.
      */
     public function count()
-    { }
+    {
+        $this->columns = ["count(*) as c"];
+        
+        return $this->first()->c;
+    }
 
 
     /*
