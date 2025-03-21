@@ -38,7 +38,7 @@ class Query
      * @param array $data
      * @return object|null Created row if retrieved successfully
      */
-    public function create(array $data): ?object
+    public function create(array $data)
     {
         $columns = array_keys($data);
         $placeholders = array_fill(0, count($columns), '?');
@@ -869,7 +869,7 @@ class Query
     public function count()
     {
         $this->columns = ["count(*) as c"];
-        
+
         return $this->first()->c;
     }
 
